@@ -16,7 +16,7 @@ class MealRepository @Inject constructor(
   private val mealApi: MealApi
 ) {
 
-    fun getCategories(): Flow<Resource<List<Category>>> = flow {
+    suspend fun getCategories(): Flow<Resource<List<Category>>> = flow {
         emit(Resource.Loading())
         try {
             val container = mealApi.getCategories()
@@ -27,7 +27,7 @@ class MealRepository @Inject constructor(
         }
     }
 
-    fun getMealsByCategory(category: String): Flow<Resource<List<Meal>>> = flow {
+    suspend fun getMealsByCategory(category: String): Flow<Resource<List<Meal>>> = flow {
         emit(Resource.Loading())
         try {
             val container = mealApi.getMealsByCategory(category)

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.turecetaapp.data.remote.dto.Meal
-import com.example.turecetaapp.presentation.HomeBody
+import com.example.turecetaapp.presentation.MealBody
+import com.example.turecetaapp.presentation.category.CategoryListScreen
 
 @Composable
 fun TuRecetaNavHost(
@@ -13,19 +13,25 @@ fun TuRecetaNavHost(
 ){
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen
+        startDestination = Screen.CategoriesScreen
     ) {
-        composable<Screen.HomeScreen>{
 
-            val samplemeal = Meal(
-                idMeal = "52772",
-                strMeal = "Chicken Handi",
-                strMealThumb = "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg"
+        composable<Screen.CategoriesScreen> {
+            CategoryListScreen(
+                onCategoryItemClick = { category ->
+                    // Example navigation action, replace "CategoryDetailScreen" with your actual destination
+                    navController.navigate("CategoryDetailScreen/$category")
+                }
             )
+        }
 
-            HomeBody(
-                mealsItem = samplemeal,
-
+        composable<Screen.MealList> {
+            MealBody(
+                onMealItemClick = { mealId ->
+                    // Example navigation action, replace "MealDetailScreen" with your actual destination
+                    navController.navigate("MealDetailScreen/$mealId")
+                },
+                goBack = navController
             )
         }
     }

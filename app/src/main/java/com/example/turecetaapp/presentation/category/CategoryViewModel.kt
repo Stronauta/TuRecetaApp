@@ -28,7 +28,7 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun getCategories() {
+     fun getCategories() {
         viewModelScope.launch {
             repository.getCategories().onEach { result ->
                 when (result) {
