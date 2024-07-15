@@ -1,4 +1,4 @@
-package com.example.turecetaapp.presentation.navigation
+package com.example.turecetaapp.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,14 +18,13 @@ import com.example.turecetaapp.data.remote.dto.Meal
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 
 @Composable
-fun Home(
+fun HomeBody(
     mealsItem: Meal,
     onMealItemClick: (String) -> Unit
 ){
@@ -74,6 +73,8 @@ fun Home(
     }
 }
 
+
+
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
@@ -84,5 +85,5 @@ fun HomePreview() {
         strMealThumb = "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg"
     )
     // Call Home composable function with sample data
-    Home(mealsItem = sampleMeal, onMealItemClick = {})
+    HomeBody(mealsItem = sampleMeal, onMealItemClick = {})
 }
