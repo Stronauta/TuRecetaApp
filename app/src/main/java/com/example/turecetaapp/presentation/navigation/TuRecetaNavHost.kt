@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.turecetaapp.presentation.MealBody
+import com.example.turecetaapp.presentation.Meal.MealBody
 import com.example.turecetaapp.presentation.category.CategoryListScreen
+import com.example.turecetaapp.presentation.home.HomeScreen
+import com.example.turecetaapp.presentation.home.HomeScreenBody
 
 @Composable
 fun TuRecetaNavHost(
@@ -13,8 +15,16 @@ fun TuRecetaNavHost(
 ){
     NavHost(
         navController = navController,
-        startDestination = Screen.CategoriesScreen
+        startDestination = Screen.HomeScreen
     ) {
+
+        composable<Screen.HomeScreen> {
+            HomeScreen(
+                onNavigateToCategories = {
+                    navController.navigate(Screen.CategoriesScreen)
+                }
+            )
+        }
 
         composable<Screen.CategoriesScreen> {
             CategoryListScreen(

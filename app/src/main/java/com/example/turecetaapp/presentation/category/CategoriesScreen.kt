@@ -72,7 +72,7 @@ fun CategoryListScreen(
             .background(Color.Black),
         topBar = {
             TopAppBar(
-                title = { Text("Tu Receta App ", color = Color.White) },
+                title = { Text("RecetaFácil", color = Color.White) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(39, 43, 51),
                     titleContentColor = Color.White

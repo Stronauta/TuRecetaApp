@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 sealed class Screen{
 
     @Serializable
+    object  HomeScreen : Screen()
+
+    @Serializable
     object  MealList : Screen()
 
     @Serializable
