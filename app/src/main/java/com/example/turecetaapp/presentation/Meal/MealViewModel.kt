@@ -1,4 +1,4 @@
-package com.example.turecetaapp.presentation
+package com.example.turecetaapp.presentation.Meal
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

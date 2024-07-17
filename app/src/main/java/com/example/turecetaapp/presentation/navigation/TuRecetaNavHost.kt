@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import com.example.turecetaapp.presentation.Meal.MealBody
 import com.example.turecetaapp.presentation.category.CategoryListScreen
 import com.example.turecetaapp.presentation.home.HomeScreen
-import com.example.turecetaapp.presentation.home.HomeScreenBody
 
 @Composable
 fun TuRecetaNavHost(
@@ -20,7 +19,7 @@ fun TuRecetaNavHost(
 
         composable<Screen.HomeScreen> {
             HomeScreen(
-                onNavigateToCategories = {
+                onEnterApp = {
                     navController.navigate(Screen.CategoriesScreen)
                 }
             )

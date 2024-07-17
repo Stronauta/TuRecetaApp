@@ -1,4 +1,4 @@
-package com.example.turecetaapp.presentation
+package com.example.turecetaapp.presentation.Meal
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.turecetaapp.R
 import com.example.turecetaapp.presentation.components.HeadingTextComponent
 
 /*@Composable
@@ -167,15 +168,15 @@ fun MealItemRow(
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true,)
 @Composable
-fun HomePreview() {
-    // Sample Meal data for preview
+fun MealPreview() {
+
     val sampleMeal = Meal(
-        idMeal = "52772",
-        strMeal = "Chicken Handi",
-        strMealThumb = "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg"
+        idMeal = "53082",
+        strMeal = "Strawberries Romanoff",
+        strMealThumb = "https://www.themealdb.com/images/media/meals/oe8rg51699014028.jpg"
     )
-    // Call Home composable function with sample data
+
     MealItemRow(mealsItem = sampleMeal, onMealItemClick = {})
 }
