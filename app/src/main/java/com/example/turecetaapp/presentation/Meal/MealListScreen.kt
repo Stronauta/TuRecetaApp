@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -25,18 +25,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
-import androidx.compose.ui.unit.dp
-import com.example.turecetaapp.data.remote.dto.Meal
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.turecetaapp.R
+import com.example.turecetaapp.data.remote.dto.Meal
 import com.example.turecetaapp.presentation.components.HeadingTextComponent
 
 /*@Composable
@@ -78,7 +77,7 @@ fun MealBody(
                 verticalAlignment = CenterVertically
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "back_icon",
                     tint = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
@@ -178,5 +177,6 @@ fun MealPreview() {
         strMealThumb = "https://www.themealdb.com/images/media/meals/oe8rg51699014028.jpg"
     )
 
+    
     MealItemRow(mealsItem = sampleMeal, onMealItemClick = {})
 }
