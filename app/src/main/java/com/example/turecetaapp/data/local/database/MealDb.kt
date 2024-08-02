@@ -4,15 +4,15 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.turecetaapp.data.local.dao.CategoryDao
 import com.example.turecetaapp.data.local.dao.MealDao
-import com.example.turecetaapp.data.local.entities.Category
-import com.example.turecetaapp.data.local.entities.Ingredient
-import com.example.turecetaapp.data.local.entities.Meal
+import com.example.turecetaapp.data.local.entities.CategoryEntity
+import com.example.turecetaapp.data.local.entities.IngredientEntity
+import com.example.turecetaapp.data.local.entities.MealEntity
 
 @Database(
     entities = [
-        Meal::class,
-        Category::class,
-        Ingredient::class
+        MealEntity::class,
+        CategoryEntity::class,
+        IngredientEntity::class
     ],
     version = 1,
     exportSchema = true,

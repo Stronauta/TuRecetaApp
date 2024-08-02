@@ -3,14 +3,14 @@ package com.example.turecetaapp.data.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.turecetaapp.data.local.entities.Meal
+import com.example.turecetaapp.data.local.entities.MealEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealDao {
 
     @Upsert
-    suspend fun upsertAll(meals: List<Meal>)
+    suspend fun save(meals: MealEntity)
 
     @Query(
         """
@@ -20,9 +20,12 @@ interface MealDao {
             LIMIT 1
         """
     )
-    suspend fun find(id: Int): Meal?
+    suspend fun find(id: Int): MealEntity?
 
     @Query("SELECT * FROM Meals")
-    fun getAll(): Flow<List<Meal>>
+    fun getAll(): Flow<List<MealEntity>>
+
+
+
 
 }

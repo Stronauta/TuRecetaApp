@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import android.util.Log
 import com.example.turecetaapp.data.remote.dto.Meal
+import com.example.turecetaapp.data.remote.dto.MealDetailResponse
 import javax.inject.Inject
 import retrofit2.HttpException
 import java.io.IOException
@@ -38,14 +39,17 @@ class MealRepository @Inject constructor(
         }
     }
 
-/*    fun getMealById(mealId: Int): Flow<Resource<Meal>> = flow {
-        emit(Resource.Loading())
+     suspend fun getMealById(idMeal: String): Flow<Resource<MealDetailResponse>> = flow {
         try {
-
-            val container = mealApi.getMealById(mealId.toString())
-            emit(Resource.Success(container.meals[0]))
-        }catch (e: Exception){
-
+            emit(Resource.Loading())
+            val meals = mealApi.getMealById(idMeal)
+            emit(Resource.Success(meals))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+        } catch (e: IOException) {
+            emit(Resource.Error("Couldn't reach server. Check your internet connection"))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         }
-    }*/
+    }
 }
