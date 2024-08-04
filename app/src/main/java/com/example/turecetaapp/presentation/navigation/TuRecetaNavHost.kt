@@ -1,47 +1,69 @@
 package com.example.turecetaapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.turecetaapp.presentation.Meal.MealBody
+import com.example.turecetaapp.presentation.authentication.HomePage
+import com.example.turecetaapp.presentation.authentication.LoginPage
+import com.example.turecetaapp.presentation.authentication.SignupPage
 import com.example.turecetaapp.presentation.category.CategoryListScreen
 import com.example.turecetaapp.presentation.home.HomeScreen
 
 @Composable
 fun TuRecetaNavHost(
     navController: NavHostController
-){
+) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen
+        startDestination = Screen.LoginScreen
     ) {
+
+        composable<Screen.LoginScreen> {
+            LoginPage(
+                navController = navController,
+                authViewModel = hiltViewModel()
+            )
+        }
+
+        composable<Screen.SignupScreen> {
+            SignupPage(
+                navController = navController,
+                authViewModel = hiltViewModel()
+            )
+        }
+
+        composable<Screen.HomeScreen2> {
+            HomePage(
+                navController = navController,
+                authViewModel = hiltViewModel()
+            )
+        }
 
         composable<Screen.HomeScreen> {
             HomeScreen(
                 onEnterApp = {
-                    navController.navigate(Screen.CategoriesScreen)
+                    navController.navigate(Screen.CategoriesList)
                 }
             )
         }
 
-        composable<Screen.CategoriesScreen> {
+        composable<Screen.CategoriesList> {
             CategoryListScreen(
                 onCategoryItemClick = { category ->
-                    // Example navigation action, replace "CategoryDetailScreen" with your actual destination
-                    navController.navigate("CategoryDetailScreen/$category")
-                }
+                    navController.navigate(Screen.CategoriesMealScreen(category))
+                },
+                authViewModel = hiltViewModel(),
+                navController = navController,
             )
         }
 
-        composable<Screen.MealList> {
-            MealBody(
-                onMealItemClick = { mealId ->
-                    // Example navigation action, replace "MealDetailScreen" with your actual destination
-                    navController.navigate("MealDetailScreen/$mealId")
-                },
-                goBack = navController
-            )
+        composable<Screen.CategoriesMealScreen> {
+/*            MealListScreen(
+
+            )*/
         }
+
     }
 }

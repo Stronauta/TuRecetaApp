@@ -5,4 +5,5 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.24-1.0.20" apply false //aqui se busca la ultima version https://github.com/google/ksp/releases
     alias(libs.plugins.kotlinx.serialization)
     id("com.google.dagger.hilt.android") version "2.51" apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 }

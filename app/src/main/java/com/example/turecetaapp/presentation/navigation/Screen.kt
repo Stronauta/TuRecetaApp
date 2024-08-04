@@ -3,20 +3,25 @@ package com.example.turecetaapp.presentation.navigation
 import kotlinx.serialization.Serializable
 
 
-sealed class Screen{
+sealed class Screen {
 
     @Serializable
-    object  HomeScreen : Screen()
+    data object HomeScreen : Screen()
 
     @Serializable
-    object  MealList : Screen()
+    data object CategoriesList : Screen()
 
     @Serializable
-    data class MealBody(val idMeal: String) : Screen()
+    data object LoginScreen : Screen()
 
     @Serializable
-    data object  CategoriesScreen : Screen()
+    data object SignupScreen : Screen()
 
+    @Serializable
+    data object HomeScreen2 : Screen()
+
+    @Serializable
+    data class CategoriesMealScreen(val category: String) : Screen()
 
 
 }
