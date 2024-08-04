@@ -2,6 +2,8 @@ package com.example.turecetaapp.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.turecetaapp.data.local.dao.CategoryDao
+import com.example.turecetaapp.data.local.dao.MealDao
 import com.example.turecetaapp.data.local.database.MealDb
 import com.example.turecetaapp.data.remote.MealApi
 import com.example.turecetaapp.data.repository.MealRepository
@@ -23,6 +25,18 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideTuRecetaDb(@ApplicationContext appContext: Context): MealDb {
+        return Room.databaseBuilder(
+            appContext,
+            MealDb::class.java,
+            "TuRecetaDb"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideMealRepo(
         mealApi: MealApi
     ) = MealRepository(mealApi)
@@ -36,7 +50,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providMeal(moshi: Moshi): MealApi{
+    fun providMeal(moshi: Moshi): MealApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
@@ -44,21 +58,15 @@ object AppModule {
             .create(MealApi::class.java)
     }
 
-    @Provides
     @Singleton
-    fun provideTuRecetaDb(@ApplicationContext appContext: Context): MealDb {
-        return Room.databaseBuilder(
-            appContext,
-            MealDb::class.java,
-            "TuRecetaDb"
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+    @Provides
+    fun provideMealDao(database: MealDb): MealDao {
+        return database.mealDao()
     }
 
+    @Singleton
     @Provides
-    fun provideMealDao(database: MealDb) = database.mealDao()
-
-    @Provides
-    fun provideCategoryDao(database: MealDb) = database.categoryDao()
+    fun provideCategoryDao(database: MealDb): CategoryDao {
+        return database.categoryDao()
+    }
 }

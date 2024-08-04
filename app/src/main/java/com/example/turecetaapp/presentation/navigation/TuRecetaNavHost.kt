@@ -53,7 +53,9 @@ fun TuRecetaNavHost(
             CategoryListScreen(
                 onCategoryItemClick = { category ->
                     navController.navigate(Screen.CategoriesMealScreen(category))
-                }
+                },
+                authViewModel = hiltViewModel(),
+                navController = navController,
             )
         }
 
@@ -62,7 +64,6 @@ fun TuRecetaNavHost(
 
             )*/
         }
-
 
     }
 }
