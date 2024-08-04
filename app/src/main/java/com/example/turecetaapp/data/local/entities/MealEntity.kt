@@ -7,26 +7,24 @@ import androidx.room.PrimaryKey
 class MealEntity {
     @PrimaryKey
     var idMeal: Int? = null
-    val strMeal: String? = null
-    val strCategory: String? = null
-    val strDrinkAlternate: String? = null
-    val strArea: String? = null
-    val strInstructions: String? = null
-    val strMealThumb: String? = null
-    val strTags: String? = null
-    val strYoutube: String? = null
-    val strSource: String? = null
-    val strImageSource: String? = null
-    val strCreativeCommonsConfirmed: String? = null
-    val dateModified: String? = null
-    val ingredients: List<IngredientEntity> = emptyList()
-
+    var strMeal: String? = null
+    var strCategory: String? = null
+    var strDrinkAlternate: String? = null
+    var strArea: String? = null
+    var strInstructions: String? = null
+    var strMealThumb: String? = null
+    var strTags: String? = null
+    var strYoutube: String? = null
+    var strSource: String? = null
+    var strImageSource: String? = null
+    var strCreativeCommonsConfirmed: String? = null
+    var dateModified: String? = null
 }
 
 @Entity(tableName = "Ingredients")
 class IngredientEntity {
     @PrimaryKey
     var idMeal: Int? = null
-    var ingredient: List<String>? = null
+    var ingredient: String? = null
     var measure: String? = null
 }

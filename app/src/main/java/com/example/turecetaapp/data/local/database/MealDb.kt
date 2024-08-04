@@ -14,8 +14,8 @@ import com.example.turecetaapp.data.local.entities.MealEntity
         CategoryEntity::class,
         IngredientEntity::class
     ],
-    version = 1,
-    exportSchema = true,
+    version = 2,
+    exportSchema = false,
 )
 
 abstract class MealDb : RoomDatabase() {

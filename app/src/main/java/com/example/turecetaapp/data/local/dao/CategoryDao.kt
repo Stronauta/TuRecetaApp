@@ -22,7 +22,7 @@ interface CategoryDao {
     )
     suspend fun find(id: Int): CategoryEntity?
 
-    @Query("SELECT * FROM Meals")
+    @Query("SELECT * FROM Categorys")
     fun getAll(): Flow<List<CategoryEntity>>
 
 }

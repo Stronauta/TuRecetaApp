@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Categorys")
 class CategoryEntity {
     @PrimaryKey
-    val idCategory: Int? = null
-    val strCategory: String = ""
-    val strCategoryThumb: String = ""
+    var idCategory: Int? = null
+    var strCategory: String = ""
+    var strCategoryThumb: String = ""
 }
-
