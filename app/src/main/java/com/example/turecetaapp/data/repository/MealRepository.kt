@@ -1,6 +1,10 @@
 package com.example.turecetaapp.data.repository
 
 import android.util.Log
+import com.example.turecetaapp.data.local.dao.CategoryDao
+import com.example.turecetaapp.data.local.dao.MealDao
+import com.example.turecetaapp.data.local.entities.CategoryEntity
+import com.example.turecetaapp.data.local.entities.MealEntity
 import com.example.turecetaapp.data.remote.MealApi
 import com.example.turecetaapp.data.remote.dto.Category
 import com.example.turecetaapp.data.remote.dto.Meal
@@ -11,14 +15,37 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
+@Singleton
 class MealRepository @Inject constructor(
     private val mealApi: MealApi,
-    //private val mealDao: MealDao
+    private val mealDao: MealDao,
+    private val categoryDao: CategoryDao
 ) {
 
-    suspend fun getCategories(): Flow<Resource<List<Category>>> = flow {
+    suspend fun insertMeal(meal: MealEntity) =
+        mealDao.save(meal)
+
+    suspend fun insertMeals(meals: List<MealEntity>) {
+        meals.forEach { meal ->
+            mealDao.save(meal)
+        }
+    }
+
+    suspend fun insertCategory(category: CategoryEntity) =
+        categoryDao.save(category)
+
+    suspend fun insertCategories(categories: List<CategoryEntity>) {
+        categories.forEach { category ->
+            categoryDao.save(category)
+        }
+    }
+
+    suspend fun find(id: Int): MealEntity? = mealDao.find(id)
+
+
+    fun getCategories(): Flow<Resource<List<Category>>> = flow {
         emit(Resource.Loading())
         try {
             val container = mealApi.getCategories()

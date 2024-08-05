@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.turecetaapp.presentation.authentication.HomePage
 import com.example.turecetaapp.presentation.authentication.LoginPage
+import com.example.turecetaapp.presentation.authentication.ProfileScreen
 import com.example.turecetaapp.presentation.authentication.SignupPage
 import com.example.turecetaapp.presentation.category.CategoryListScreen
 import com.example.turecetaapp.presentation.home.HomeScreen
@@ -17,7 +18,7 @@ fun TuRecetaNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.LoginScreen
+        startDestination = Screen.ProfileScreen
     ) {
 
         composable<Screen.LoginScreen> {
@@ -38,6 +39,13 @@ fun TuRecetaNavHost(
             HomePage(
                 navController = navController,
                 authViewModel = hiltViewModel()
+            )
+        }
+
+        composable<Screen.ProfileScreen> {
+            ProfileScreen(
+                authViewModel = hiltViewModel(),
+                navController = navController,
             )
         }
 

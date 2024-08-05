@@ -14,8 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,15 +42,15 @@ fun SignupPage(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    val authState = authViewModel.authState.observeAsState()
+    val authState by authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(authState.value) {
-        when (authState.value) {
-            is AuthState.Authenticated -> navController.navigate(Screen.HomeScreen2)
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Authenticated -> navController.navigate(Screen.CategoriesList)
             is AuthState.Error -> Toast.makeText(
                 context,
-                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT
+                (authState as AuthState.Error).message, Toast.LENGTH_SHORT
             ).show()
 
             else -> Unit
@@ -104,7 +104,7 @@ fun SignupPage(
 
             Button(
                 onClick = { authViewModel.signup(email, password) },
-                enabled = authState.value != AuthState.Loading
+                enabled = authState != AuthState.Loading
             ) {
                 Text(text = "Crear Cuenta")
             }
