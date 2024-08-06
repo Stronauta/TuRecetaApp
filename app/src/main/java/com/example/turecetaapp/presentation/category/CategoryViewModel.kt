@@ -24,11 +24,13 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val x = repository.find(52772)
+
             getCategories()
         }
     }
 
-     fun getCategories() {
+    fun getCategories() {
         viewModelScope.launch {
             repository.getCategories().onEach { result ->
                 when (result) {
@@ -37,11 +39,13 @@ class CategoryViewModel @Inject constructor(
                             categories = result.data ?: emptyList()
                         )
                     }
+
                     is Resource.Error -> {
                         _state.value = CategoryListState(
                             error = result.message ?: "An unexpected error occurred"
                         )
                     }
+
                     is Resource.Loading -> {
                         _state.value = CategoryListState(isLoading = true)
                     }

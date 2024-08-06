@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.turecetaapp.presentation.Meal.MealListScreen
 import com.example.turecetaapp.presentation.authentication.HomePage
 import com.example.turecetaapp.presentation.authentication.LoginPage
 import com.example.turecetaapp.presentation.authentication.ProfileScreen
@@ -67,10 +68,17 @@ fun TuRecetaNavHost(
             )
         }
 
-        composable<Screen.CategoriesMealScreen> {
-/*            MealListScreen(
+        composable<Screen.CategoriesMealScreen> { backStackEntry ->
+            val category = backStackEntry.arguments?.getString("category") ?: ""
+            MealListScreen(
+                category = category,
+                onMealItemClick = { mealId ->
+                    navController.navigate(Screen.CategoriesMealScreen)
+                },
+                navController = navController,
+                authViewModel = hiltViewModel()
+            )
 
-            )*/
         }
 
     }
