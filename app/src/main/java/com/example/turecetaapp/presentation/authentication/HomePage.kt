@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.turecetaapp.presentation.navigation.Screen
+import com.example.turecetaapp.navigation.Screen
 
 @Composable
 fun HomePage(
