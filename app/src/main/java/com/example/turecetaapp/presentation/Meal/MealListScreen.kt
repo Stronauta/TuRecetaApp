@@ -45,10 +45,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.turecetaapp.data.remote.dto.Meal
+import com.example.turecetaapp.navigation.Screen
 import com.example.turecetaapp.presentation.authentication.AuthState
 import com.example.turecetaapp.presentation.authentication.AuthViewModel
 import com.example.turecetaapp.presentation.components.HeadingTextComponent
-import com.example.turecetaapp.presentation.navigation.Screen
+import com.example.turecetaapp.presentation.meal.MealViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

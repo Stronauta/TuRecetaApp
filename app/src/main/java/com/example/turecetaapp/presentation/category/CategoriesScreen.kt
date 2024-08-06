@@ -46,9 +46,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.turecetaapp.data.remote.dto.Category
+import com.example.turecetaapp.navigation.Screen
 import com.example.turecetaapp.presentation.authentication.AuthState
 import com.example.turecetaapp.presentation.authentication.AuthViewModel
-import com.example.turecetaapp.presentation.navigation.Screen
 import com.example.turecetaapp.ui.theme.TuRecetaAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

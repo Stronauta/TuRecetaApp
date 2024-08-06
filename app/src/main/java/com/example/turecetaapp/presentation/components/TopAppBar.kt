@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.turecetaapp.navigation.Screen
 import com.example.turecetaapp.presentation.authentication.AuthState
-import com.example.turecetaapp.presentation.navigation.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +83,7 @@ fun TopAppBar(
 @Composable
 fun TopAppBarPreview() {
     val navController = rememberNavController()
-    val authState = AuthState.Authenticated // Mock authenticated state
+    val authState = AuthState.Authenticated
     val onProfileClick = {}
 
     TopAppBar(
@@ -92,7 +92,7 @@ fun TopAppBarPreview() {
         authState = authState,
         onProfileClick = onProfileClick
     ) { innerPadding ->
-        // Mock content
+
         Box(modifier = Modifier.padding(innerPadding)) {
             Text(text = "Content goes here", color = Color.White)
         }

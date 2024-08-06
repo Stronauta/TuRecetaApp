@@ -71,9 +71,4 @@ object AppModule {
         return database.MealDetailsDao()
     }
 
-    /*    @Singleton
-        @Provides
-        fun provideADao(database: MealDb): aDao {
-            return database.aDao()
-        }*/
 }

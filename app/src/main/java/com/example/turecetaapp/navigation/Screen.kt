@@ -1,4 +1,4 @@
-package com.example.turecetaapp.presentation.navigation
+package com.example.turecetaapp.navigation
 
 import kotlinx.serialization.Serializable
 
