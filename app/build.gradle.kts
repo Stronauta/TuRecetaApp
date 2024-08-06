@@ -57,7 +57,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation (libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
 
@@ -82,15 +82,15 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
-    ksp (libs.hilt.android.compiler)
-    implementation (libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.moshi.kotlin)
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
-    implementation (libs.coil.compose)
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -102,4 +102,7 @@ dependencies {
 
     implementation(libs.gson)
     implementation(libs.converter.gson)
+
+    implementation(libs.lottie.compose)
+
 }

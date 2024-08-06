@@ -54,8 +54,8 @@ import com.example.turecetaapp.presentation.navigation.Screen
 @Composable
 fun MealListScreen(
     category: String,
-    viewModel: MealViewModel = hiltViewModel(),
     onMealItemClick: (String) -> Unit,
+    viewModel: MealViewModel = hiltViewModel(),
     navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel(),
 ) {
@@ -125,7 +125,11 @@ fun MealListScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     items(uiState.meals) { meal ->
-                        MealItemRow(meal, onMealItemClick)
+                        MealItemRow(
+                            mealsItem = meal,
+                            onMealItemClick = { mealId ->
+                                navController.navigate(Screen.MealDetailScreen(mealId))
+                            })
                     }
                 }
             }

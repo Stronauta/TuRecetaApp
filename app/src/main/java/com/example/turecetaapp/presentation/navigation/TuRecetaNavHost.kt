@@ -1,5 +1,6 @@
 package com.example.turecetaapp.presentation.navigation
 
+import MealDetailScreen
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -19,7 +20,7 @@ fun TuRecetaNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.ProfileScreen
+        startDestination = Screen.CategoriesList
     ) {
 
         composable<Screen.LoginScreen> {
@@ -78,8 +79,17 @@ fun TuRecetaNavHost(
                 navController = navController,
                 authViewModel = hiltViewModel()
             )
-
         }
+
+        composable<Screen.MealDetailScreen> {
+            val mealId = it.arguments?.getString("mealId") ?: ""
+            MealDetailScreen(
+                mealId = mealId,
+                viewModel = hiltViewModel(),
+                navController = navController
+            )
+        }
+
 
     }
 }
