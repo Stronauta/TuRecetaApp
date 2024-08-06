@@ -160,28 +160,36 @@ fun MealDetailScreen(
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        TextTitleMealInfo("Video en YouTube")
 
-                        if (isInternetAvailable(context)) {
-                            Text(
-                                text = "Más información sobre la receta",
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .clickable {
-                                        val intent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(meal.strYoutube))
-                                        context.startActivity(intent)
-                                    }
-                            )
-                        } else {
-                            Text(
-                                text = "No hay conexión a internet",
-                                color = MaterialTheme.colorScheme.error,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                            )
+
+                        if (meal.strYoutube.isNotEmpty()) {
+                            TextTitleMealInfo("Video en YouTube")
+
+                            if (isInternetAvailable(context)) {
+                                Text(
+                                    text = "Más información sobre la receta",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .clickable {
+                                            val intent =
+                                                Intent(
+                                                    Intent.ACTION_VIEW,
+                                                    Uri.parse(meal.strYoutube)
+                                                )
+                                            context.startActivity(intent)
+                                        }
+                                )
+                            } else {
+                                Text(
+                                    text = "No hay conexión a internet",
+                                    color = MaterialTheme.colorScheme.error,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                )
+                            }
                         }
+
                     }
                 } ?: run {
                     if (state.error.isNotBlank()) {
