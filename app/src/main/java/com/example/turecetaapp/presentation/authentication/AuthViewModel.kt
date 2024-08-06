@@ -11,6 +11,8 @@ class AuthViewModel : ViewModel() {
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
     val authState: StateFlow<AuthState> = _authState
 
+    val isUserAuthenticated: Boolean
+        get() = auth.currentUser != null
 
     init {
         checkAuthStatus()
