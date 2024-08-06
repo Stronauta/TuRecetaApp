@@ -14,22 +14,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -59,18 +60,19 @@ fun CategoryListScreen(
     navController: NavController
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
-    val authState = authViewModel.authState.observeAsState()
+    val authState by authViewModel.authState.collectAsState()
 
     LaunchedEffect(key1 = true) {
-        when (authState.value) {
-            is AuthState.Unauthenticated -> navController.navigate(Screen.LoginScreen)
-            else -> Unit
-        }
-
         if (uiState.categories.isEmpty()) {
             viewModel.getCategories()
         }
+    }
 
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Unauthenticated -> navController.navigate(Screen.LoginScreen)
+            else -> Unit
+        }
     }
 
     Scaffold(
@@ -85,16 +87,22 @@ fun CategoryListScreen(
                     titleContentColor = Color.White
                 ),
                 actions = {
-                    Row {
-                        /*                      IconButton(onClick = {}) {
-                                                  Icon(
-                                                      Icons.Filled.Menu,
-                                                      contentDescription = "Navigation Menu",
-                                                      tint = Color.White
-                                                  )
-                                              }*/
-                        TextButton(onClick = { authViewModel.signout() }) {
-                            Text(text = "Sign out", color = Color.White)
+                    Row(
+                        verticalAlignment = CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .padding(end = 16.dp)
+                                .clickable {
+                                    navController.navigate(Screen.ProfileScreen)
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Profile Icon",
+                                tint = Color.White,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
                         }
                     }
                 }
@@ -102,7 +110,9 @@ fun CategoryListScreen(
         },
     ) { innerPadding ->
         CategoryScreenBody(
-            onCategoryItemClick = onCategoryItemClick,
+            onCategoryItemClick = { category ->
+                navController.navigate(Screen.CategoriesMealScreen(category))
+            },
             uiState = uiState,
             innerPadding = innerPadding
         )

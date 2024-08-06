@@ -18,15 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MealViewModel @Inject constructor(
-    private val repository: MealRepository
+    private val repository: MealRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MealUiState())
-    val uiState = _uiState.asStateFlow()
+    open val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            SavedStateHandle().get<String>(PARAM_STR_CATEGORY)?.let { strCategory ->
+            savedStateHandle.get<String>(PARAM_STR_CATEGORY)?.let { strCategory ->
                 getMeals(strCategory)
             }
         }
@@ -42,12 +43,14 @@ class MealViewModel @Inject constructor(
                                 isLoading = true
                             )
                         }
+
                         is Resource.Success -> _uiState.update {
                             it.copy(
                                 isLoading = false,
                                 meals = result.data ?: emptyList()
                             )
                         }
+
                         is Resource.Error -> _uiState.update {
                             it.copy(
                                 isLoading = false,
@@ -72,4 +75,3 @@ data class MealUiState(
     val error: String? = null
 
 )
-

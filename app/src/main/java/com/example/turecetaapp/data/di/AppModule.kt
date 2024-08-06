@@ -29,17 +29,12 @@ object AppModule {
         return Room.databaseBuilder(
             appContext,
             MealDb::class.java,
-            "TuRecetaDb"
+            "TuReceta.db"
         )
             .fallbackToDestructiveMigration()
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun provideMealRepo(
-        mealApi: MealApi
-    ) = MealRepository(mealApi)
+    
 
     @Singleton
     @Provides
@@ -69,4 +64,10 @@ object AppModule {
     fun provideCategoryDao(database: MealDb): CategoryDao {
         return database.categoryDao()
     }
+
+    /*    @Singleton
+        @Provides
+        fun provideADao(database: MealDb): aDao {
+            return database.aDao()
+        }*/
 }

@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MealApi {
+    
     @GET("categories.php")
     suspend fun getCategories(): CategoryResponse
 
