@@ -5,30 +5,27 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.turecetaapp.data.local.entities.MealEntity
+import com.example.turecetaapp.data.local.entities.MealDetailsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MealDao {
-
+interface MealDetailsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(meals: List<MealEntity>)
+    suspend fun insert(mealDetails: MealDetailsEntity)
 
     @Upsert
-    suspend fun save(meals: MealEntity)
+    suspend fun save(details: MealDetailsEntity)
 
     @Query(
         """
             SELECT * 
-            FROM Meals
+            FROM meals_details
             WHERE idMeal = :id
             LIMIT 1
         """
     )
-    suspend fun find(id: Int): MealEntity?
+    suspend fun getMealDetailById(id: String): MealDetailsEntity?
 
-    @Query("SELECT * FROM Meals")
-    fun getAll(): Flow<List<MealEntity>>
-
-
+    @Query("SELECT * FROM meals_details")
+    fun getAll(): Flow<List<MealDetailsEntity>>
 }

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.turecetaapp.data.local.dao.CategoryDao
 import com.example.turecetaapp.data.local.dao.MealDao
+import com.example.turecetaapp.data.local.dao.MealDetailsDao
 import com.example.turecetaapp.data.local.database.MealDb
 import com.example.turecetaapp.data.remote.MealApi
-import com.example.turecetaapp.data.repository.MealRepository
 import com.example.turecetaapp.util.Constants.BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -34,7 +34,7 @@ object AppModule {
             .fallbackToDestructiveMigration()
             .build()
     }
-    
+
 
     @Singleton
     @Provides
@@ -63,6 +63,12 @@ object AppModule {
     @Provides
     fun provideCategoryDao(database: MealDb): CategoryDao {
         return database.categoryDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideMealDetailsDao(database: MealDb): MealDetailsDao {
+        return database.MealDetailsDao()
     }
 
     /*    @Singleton

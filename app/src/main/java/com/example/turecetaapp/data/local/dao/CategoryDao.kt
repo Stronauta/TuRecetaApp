@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(categories: CategoryEntity)
+    suspend fun insert(categories: List<CategoryEntity>)
 
     @Upsert
     suspend fun save(categories: CategoryEntity)
