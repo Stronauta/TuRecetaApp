@@ -17,11 +17,14 @@ TuReceta es una aplicación de recetas que consume datos de TheMealDB API para p
 - MVVM (Model-View-ViewModel)
 - Retrofit
 - Firebase Auth
-- Firestore
 
 ## Cómo Ejecutar el Proyecto
 
 1. Asegúrate de tener Android Studio instalado en tu computadora.
 2. Clona este repositorio en tu máquina local usando el comando:
    ```bash
-   [git clone https://github.com/tu_usuario/TuReceta.git](https://github.com/Stronauta/TuRecetaApp.git)
+   [(https://github.com/Stronauta/TuRecetaApp.git)]
+3. El proyecto usa Firebase Auth por tanto tendras que crear una cuenta y vincularla al proyecto clonado para pueda funcionar.
+
+## Creditos
+API proporcionada por [TheMealDB](https://www.themealdb.com/) para proporcionar información de recetas.
