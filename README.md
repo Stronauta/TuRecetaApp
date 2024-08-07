@@ -24,4 +24,4 @@ TuReceta es una aplicación de recetas que consume datos de TheMealDB API para p
 1. Asegúrate de tener Android Studio instalado en tu computadora.
 2. Clona este repositorio en tu máquina local usando el comando:
    ```bash
-   git clone https://github.com/tu_usuario/TuReceta.git
+   [git clone https://github.com/tu_usuario/TuReceta.git](https://github.com/Stronauta/TuRecetaApp.git)
