@@ -1,6 +1,9 @@
 package com.example.turecetaapp.presentation.authentication
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -53,7 +56,7 @@ fun TopBar() {
                     modifier = Modifier.size(40.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "TuRecetaApp", fontSize = 20.sp)
+                Text(text = "TuReceta", fontSize = 20.sp)
             }
         }
     )
@@ -73,13 +76,27 @@ fun LoginPage(
     val context = LocalContext.current
 
     LaunchedEffect(authState) {
+        Log.d("LoginPage", "AuthState changed: $authState")
         when (authState) {
-            is AuthState.Authenticated -> navController.navigate(Screen.HomeScreen)
-            is AuthState.Error -> Toast.makeText(
-                context,
-                (authState as AuthState.Error).message, Toast.LENGTH_SHORT
-            ).show()
-
+            is AuthState.Authenticated -> {
+                Log.d("LoginPage", "Authenticated, navigating to HomeScreen")
+                navController.navigate(Screen.HomeScreen) {
+                    popUpTo(Screen.LoginScreen) { inclusive = true }
+                }
+            }
+            is AuthState.Guest -> {
+                Log.d("LoginPage", "Guest, navigating to CategoriesList")
+                navController.navigate(Screen.CategoriesList) {
+                    popUpTo(Screen.LoginScreen) { inclusive = true }
+                }
+            }
+            is AuthState.Error -> {
+                Log.d("LoginPage", "Error: ${(authState as AuthState.Error).message}")
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message, Toast.LENGTH_SHORT
+                ).show()
+            }
             else -> Unit
         }
     }
@@ -136,13 +153,18 @@ fun LoginPage(
                 Text(text = "Iniciar Sesión")
             }
 
-/*            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Button(
-                onClick = { enterAsGuest(context, navController) }
-            ) {
-                Text(text = "Enter as Guest")
-            }*/
+            if(isInternetAvailable(context)){
+                Button(
+                    onClick = {
+                        Log.d("LoginPage", "Guest button clicked")
+                        authViewModel.enterAsGuest()
+                    }
+                ) {
+                    Text(text = "Entrar como Invitado")
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -153,12 +175,10 @@ fun LoginPage(
     }
 }
 
-fun enterAsGuest(context: Context, navController: NavController) {
-    if (isInternetAvailable(context)) {
-        Toast.makeText(context, "Internet available. Entering as guest.", Toast.LENGTH_SHORT).show()
-        navController.navigate(Screen.HomeScreen)
-    } else {
-        Toast.makeText(context, "No internet connection. Entering as guest.", Toast.LENGTH_SHORT).show()
-        navController.navigate(Screen.CategoriesList)
-    }
+fun isInternetAvailable(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network = connectivityManager.activeNetwork ?: return false
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+    return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
 }
