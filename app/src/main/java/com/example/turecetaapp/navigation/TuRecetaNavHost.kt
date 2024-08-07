@@ -7,13 +7,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.turecetaapp.presentation.Meal.MealListScreen
-import com.example.turecetaapp.presentation.Meal.MealListScreen
 import com.example.turecetaapp.presentation.authentication.HomePage
 import com.example.turecetaapp.presentation.authentication.LoginPage
 import com.example.turecetaapp.presentation.authentication.ProfileScreen
 import com.example.turecetaapp.presentation.authentication.SignupPage
 import com.example.turecetaapp.presentation.category.CategoryListScreen
 import com.example.turecetaapp.presentation.home.HomeScreen
+import com.example.turecetaapp.presentation.meal_details.favorite_meals.FavoriteMealsScreen
 
 @Composable
 fun TuRecetaNavHost(
@@ -89,6 +89,13 @@ fun TuRecetaNavHost(
                 viewModel = hiltViewModel(),
                 navController = navController
             )
+        }
+
+        composable<Screen.FavoriteScreen> {
+            FavoriteMealsScreen(
+                navController = navController,
+                viewModel = hiltViewModel(),
+                )
         }
 
 
