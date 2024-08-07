@@ -15,7 +15,7 @@ import com.example.turecetaapp.data.local.entities.MealEntity
         CategoryEntity::class,
         MealDetailsEntity::class
     ],
-    version = 6,
+    version = 8,
     exportSchema = false,
 )
 

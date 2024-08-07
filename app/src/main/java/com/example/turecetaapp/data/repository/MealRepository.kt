@@ -27,29 +27,6 @@ class MealRepository @Inject constructor(
     private val mealDetailsDao: MealDetailsDao
 ) {
 
-
-
-    suspend fun insertMeal(meal: MealEntity) =
-        mealDao.save(meal)
-
-    suspend fun insertMeals(meals: List<MealEntity>) {
-        meals.forEach { meal ->
-            mealDao.save(meal)
-        }
-    }
-
-    suspend fun insertCategory(category: CategoryEntity) =
-        categoryDao.save(category)
-
-    suspend fun insertCategories(categories: List<CategoryEntity>) {
-        categories.forEach { category ->
-            categoryDao.save(category)
-        }
-    }
-
-    suspend fun find(id: Int): MealEntity? = mealDao.find(id)
-
-
     fun getCategories(): Flow<Resource<List<Category>>> = flow {
         emit(Resource.Loading())
         try {
@@ -95,14 +72,57 @@ class MealRepository @Inject constructor(
     suspend fun getMealsByCategory(category: String): Flow<Resource<List<Meal>>> = flow {
         emit(Resource.Loading())
         try {
-            val container = mealApi.getMealsByCategory(category)
-            emit(Resource.Success(container.meals))
+            Log.d("MealRepository", "Fetching meals by category from local database")
+
+            // Obtener datos locales de la base de datos
+            val localMeals = mealDao.getMealsByCategory(category).firstOrNull() ?: emptyList()
+
+            if (localMeals.isNotEmpty()) {
+                Log.d("MealRepository", "Local meals found: ${localMeals.size}")
+
+                // Convertir MealEntity a Meal y emitir el resultado
+                val meals = localMeals.map { mealEntity ->
+                    Meal(
+                        idMeal = mealEntity.idMeal.toString(),
+                        strMeal = mealEntity.strMeal.toString(),
+                        strMealThumb = mealEntity.strMealThumb ?: "",
+                    )
+                }
+                emit(Resource.Success(meals))
+            } else {
+                Log.d("MealRepository", "No local meals found, fetching from API")
+
+                // Obtener datos de la API
+                val container = mealApi.getMealsByCategory(category)
+                val meals = container.meals.map { mealDto ->
+                    MealEntity(
+                        idMeal = mealDto.idMeal.toInt(),
+                        strMeal = mealDto.strMeal,
+                        strMealThumb = mealDto.strMealThumb,
+                        strCategory = category,
+                    )
+                }
+
+                // Guardar los datos en la base de datos local
+                Log.d("MealRepository", "Saving meals to local database")
+                mealDao.insert(meals)
+
+                // Convertir y emitir los datos obtenidos
+                val mappedMeals = meals.map { mealEntity ->
+                    Meal(
+                        idMeal = mealEntity.idMeal.toString(),
+                        strMeal = mealEntity.strMeal.toString(),
+                        strMealThumb = mealEntity.strMealThumb ?: "",
+
+                        )
+                }
+                emit(Resource.Success(mappedMeals))
+            }
         } catch (e: Exception) {
             Log.e("MealRepository", "Error fetching meals", e)
             emit(Resource.Error("Error fetching meals"))
         }
     }
-
     suspend fun getMealById(idMeal: String): Flow<Resource<MealDetailResponse>> = flow {
         try {
             emit(Resource.Loading())
