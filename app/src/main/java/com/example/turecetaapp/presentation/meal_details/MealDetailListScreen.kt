@@ -21,6 +21,8 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -74,7 +76,6 @@ fun MealDetailScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val authState by authViewModel.authState.collectAsState()
     val context = LocalContext.current
-
 
     LaunchedEffect(mealId) {
         viewModel.getMealDetails(mealId)
@@ -139,6 +140,7 @@ fun MealDetailScreen(
                     .verticalScroll(rememberScrollState()),
             ) {
                 state.meals.firstOrNull()?.let { meal ->
+                    val isFavorite = state.favoriteMeals.any { it.idMeal == meal.idMeal }
                     Card(
                         Modifier
                             .fillMaxWidth()
@@ -150,7 +152,9 @@ fun MealDetailScreen(
                             defaultElevation = 10.dp
                         )
                     ) {
-                        MealDetailItem(mealInfo = meal)
+                        MealDetailItem(mealInfo = meal, isFavorite = isFavorite) {
+                            viewModel.toggleFavoriteMeal(meal)
+                        }
                         Spacer(modifier = Modifier.height(10.dp))
 
                         TextTitleMealInfo("Ingredients")
@@ -213,7 +217,9 @@ fun MealDetailScreen(
 
 @Composable
 fun MealDetailItem(
-    mealInfo: MealDetails
+    mealInfo: MealDetails,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -262,6 +268,16 @@ fun MealDetailItem(
                 .fillMaxWidth()
                 .padding(bottom = 5.dp)
         )
+        IconButton(
+            onClick = onFavoriteClick,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Icon(
+                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = "Favorite Icon",
+                tint = Color.Red
+            )
+        }
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()

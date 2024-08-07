@@ -2,9 +2,11 @@ package com.example.turecetaapp.data.repository
 
 import android.util.Log
 import com.example.turecetaapp.data.local.dao.CategoryDao
+import com.example.turecetaapp.data.local.dao.FavoriteMealDao
 import com.example.turecetaapp.data.local.dao.MealDao
 import com.example.turecetaapp.data.local.dao.MealDetailsDao
 import com.example.turecetaapp.data.local.entities.CategoryEntity
+import com.example.turecetaapp.data.local.entities.FavoriteMealEntity
 import com.example.turecetaapp.data.local.entities.MealDetailsEntity
 import com.example.turecetaapp.data.local.entities.MealEntity
 import com.example.turecetaapp.data.remote.MealApi
@@ -26,8 +28,9 @@ class MealRepository @Inject constructor(
     private val mealApi: MealApi,
     private val mealDao: MealDao,
     private val categoryDao: CategoryDao,
-    private val mealDetailsDao: MealDetailsDao
-) {
+    private val mealDetailsDao: MealDetailsDao,
+    private val favoriteMealDao: FavoriteMealDao,
+    ) {
 
     fun getCategories(): Flow<Resource<List<Category>>> = flow {
         emit(Resource.Loading())
@@ -178,6 +181,18 @@ class MealRepository @Inject constructor(
                 emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
             }
         }
+    }
+
+    suspend fun addFavoriteMeal(meal: FavoriteMealEntity) {
+        favoriteMealDao.insertFavoriteMeal(meal)
+    }
+
+    suspend fun removeFavoriteMeal(meal: FavoriteMealEntity) {
+        favoriteMealDao.deleteFavoriteMeal(meal)
+    }
+
+    fun getFavoriteMeals(): Flow<List<FavoriteMealEntity>> {
+        return favoriteMealDao.getAllFavoriteMeals()
     }
 }
 

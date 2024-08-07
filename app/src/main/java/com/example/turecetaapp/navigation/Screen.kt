@@ -24,6 +24,9 @@ sealed class Screen {
     data object ProfileScreen : Screen()
 
     @Serializable
+    data object FavoriteScreen : Screen()
+
+    @Serializable
     data class CategoriesMealScreen(val category: String) : Screen()
 
     @Serializable

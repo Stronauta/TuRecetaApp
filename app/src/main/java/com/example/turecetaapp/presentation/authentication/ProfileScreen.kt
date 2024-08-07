@@ -24,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.turecetaapp.R
 import com.example.turecetaapp.navigation.Screen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,18 +38,21 @@ fun ProfileScreen(
     navController: NavController,
 ) {
     val authState by authViewModel.authState.collectAsState()
+    val currentUser = authViewModel.currentUser
 
     val userEmail = when (authState) {
-        is AuthState.Authenticated -> authViewModel.auth.currentUser?.email ?: "Unknown"
-        else -> "Unknown"
+        is AuthState.Authenticated -> currentUser?.email ?: "Unknown"
+        else -> "Anonymous"
     }
 
-    val userName = userEmail.substringBefore('@').replaceFirstChar { it.uppercase() }
+    val userName = when (authState) {
+        is AuthState.Authenticated -> currentUser?.email?.substringBefore('@')?.replaceFirstChar { it.uppercase() } ?: "Unknown"
+        else -> "Anonymous"
+    }
 
     LaunchedEffect(authState) {
-        when (authState) {
-            is AuthState.Unauthenticated -> navController.navigate(Screen.LoginScreen)
-            else -> Unit
+        if (authState is AuthState.Unauthenticated) {
+            navController.navigate(Screen.LoginScreen)
         }
     }
 
@@ -96,7 +101,11 @@ fun ProfileScreen(
 
             Button(
                 onClick = {
-                    authViewModel.signout()
+                    if (authState is AuthState.Authenticated) {
+                        authViewModel.signout()
+                    } else {
+                        navController.navigate(Screen.SignupScreen)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -104,10 +113,30 @@ fun ProfileScreen(
                 ),
                 modifier = Modifier.padding(horizontal = 32.dp)
             ) {
-                Text(text = "Cerrar Sesión", style = MaterialTheme.typography.labelLarge)
+                Text(
+                    text = if (authState is AuthState.Authenticated) "Cerrar Sesión" else "Crear Cuenta",
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            if (authState is AuthState.Authenticated) {
+                Button(
+                    onClick = {
+                        navController.navigate(Screen.FavoriteScreen)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                ) {
+                    Text(text = "Mis Favoritos", style = MaterialTheme.typography.labelLarge)
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             Button(
                 onClick = {

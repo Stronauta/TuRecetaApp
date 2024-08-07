@@ -3,6 +3,7 @@ package com.example.turecetaapp.data.di
 import android.content.Context
 import androidx.room.Room
 import com.example.turecetaapp.data.local.dao.CategoryDao
+import com.example.turecetaapp.data.local.dao.FavoriteMealDao
 import com.example.turecetaapp.data.local.dao.MealDao
 import com.example.turecetaapp.data.local.dao.MealDetailsDao
 import com.example.turecetaapp.data.local.database.MealDb
@@ -70,5 +71,11 @@ object AppModule {
     @Provides
     fun provideMealDetailsDao(database: MealDb): MealDetailsDao {
         return database.mealDetailsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteMealsDao(database: MealDb): FavoriteMealDao {
+        return database.favoriteMealDao()
     }
 }
