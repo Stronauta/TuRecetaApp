@@ -75,7 +75,14 @@ class MealDetailViewModel @Inject constructor(
             } else {
                 repository.addFavoriteMeal(favoriteMeal)
             }
-            getFavoriteMeals()  // Refresh the favorite meals list
+            getFavoriteMeals()
+        }
+    }
+
+    fun deleteFavoriteMeal(meal: FavoriteMealEntity) {
+        viewModelScope.launch {
+            repository.removeFavoriteMeal(meal)
+            getFavoriteMeals()  // Refrescar la lista de comidas favoritas
         }
     }
 }

@@ -121,20 +121,22 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate(Screen.FavoriteScreen)
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = Color.White
-                ),
-                modifier = Modifier.padding(horizontal = 32.dp)
-            ) {
-                Text(text = "Mis Favoritos", style = MaterialTheme.typography.labelLarge)
-            }
+            if (authState is AuthState.Authenticated) {
+                Button(
+                    onClick = {
+                        navController.navigate(Screen.FavoriteScreen)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                ) {
+                    Text(text = "Mis Favoritos", style = MaterialTheme.typography.labelLarge)
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             Button(
                 onClick = {
