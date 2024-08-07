@@ -21,8 +21,11 @@ class AuthViewModel : ViewModel() {
     }
 
     private fun checkAuthStatus() {
-        if (auth.currentUser == null) {
+        val user = auth.currentUser
+        if (user == null) {
             _authState.value = AuthState.Unauthenticated
+        } else if (user.isAnonymous) {
+            _authState.value = AuthState.Guest
         } else {
             _authState.value = AuthState.Authenticated
         }
@@ -71,7 +74,7 @@ class AuthViewModel : ViewModel() {
         auth.signInAnonymously()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _authState.value = AuthState.Authenticated
+                    _authState.value = AuthState.Guest
                 } else {
                     _authState.value =
                         AuthState.Error(task.exception?.message ?: "Algo salió mal")
@@ -79,7 +82,6 @@ class AuthViewModel : ViewModel() {
             }
     }
 }
-
 
 sealed class AuthState {
     object Authenticated : AuthState()
