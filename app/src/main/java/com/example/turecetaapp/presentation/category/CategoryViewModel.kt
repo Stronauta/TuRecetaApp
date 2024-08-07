@@ -24,8 +24,6 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val x = repository.find(52772)
-
             getCategories()
         }
     }
