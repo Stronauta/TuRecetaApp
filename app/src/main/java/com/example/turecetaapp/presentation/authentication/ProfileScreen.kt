@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.turecetaapp.R
@@ -101,7 +100,7 @@ fun ProfileScreen(
 
             Button(
                 onClick = {
-                    if (authState is AuthState.Authenticated) {
+                    if (authState is AuthState.Authenticated || authState is AuthState.Guest) {
                         authViewModel.signout()
                     } else {
                         navController.navigate(Screen.SignupScreen)
@@ -114,7 +113,7 @@ fun ProfileScreen(
                 modifier = Modifier.padding(horizontal = 32.dp)
             ) {
                 Text(
-                    text = if (authState is AuthState.Authenticated) "Cerrar Sesión" else "Crear Cuenta",
+                    text = if (authState is AuthState.Authenticated || authState is AuthState.Guest) "Cerrar Sesión" else "Crear Cuenta",
                     style = MaterialTheme.typography.labelLarge
                 )
             }
