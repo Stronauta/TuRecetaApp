@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface MealDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(meals: MealEntity)
+    suspend fun insert(meals: List<MealEntity>)
 
     @Upsert
-    suspend fun save(meals: MealEntity)
+    suspend fun save(meal: MealEntity)
 
     @Query(
         """
@@ -26,6 +26,9 @@ interface MealDao {
         """
     )
     suspend fun find(id: Int): MealEntity?
+
+        @Query("SELECT * FROM Meals WHERE strCategory = :category")
+        fun getMealsByCategory(category: String): Flow<List<MealEntity>>
 
     @Query("SELECT * FROM Meals")
     fun getAll(): Flow<List<MealEntity>>

@@ -1,4 +1,4 @@
-package com.example.turecetaapp.presentation.navigation
+package com.example.turecetaapp.navigation
 
 import MealDetailScreen
 import androidx.compose.runtime.Composable
@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.turecetaapp.presentation.Meal.MealListScreen
 import com.example.turecetaapp.presentation.Meal.MealListScreen
 import com.example.turecetaapp.presentation.authentication.HomePage
 import com.example.turecetaapp.presentation.authentication.LoginPage

@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,7 +49,7 @@ import com.example.turecetaapp.data.remote.dto.Meal
 import com.example.turecetaapp.presentation.authentication.AuthState
 import com.example.turecetaapp.presentation.authentication.AuthViewModel
 import com.example.turecetaapp.presentation.components.HeadingTextComponent
-import com.example.turecetaapp.presentation.navigation.Screen
+import com.example.turecetaapp.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,6 +108,13 @@ fun MealListScreen(
                                 contentDescription = "Profile Icon",
                                 tint = Color.White,
                                 modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        IconButton(onClick = { /* Handle search button click */ }) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search Icon",
+                                tint = Color.White
                             )
                         }
                     }

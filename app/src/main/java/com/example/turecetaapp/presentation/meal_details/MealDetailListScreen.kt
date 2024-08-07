@@ -60,7 +60,7 @@ import com.example.turecetaapp.presentation.authentication.AuthState
 import com.example.turecetaapp.presentation.authentication.AuthViewModel
 import com.example.turecetaapp.presentation.components.TextTitleMealInfo
 import com.example.turecetaapp.presentation.meal_details.MealDetailViewModel
-import com.example.turecetaapp.presentation.navigation.Screen
+import com.example.turecetaapp.navigation.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -162,26 +162,32 @@ fun MealDetailScreen(
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        TextTitleMealInfo("Video en YouTube")
+                        if (meal.strYoutube.isNotEmpty()) {
+                            TextTitleMealInfo("Video en YouTube")
 
-                        if (isInternetAvailable(context)) {
-                            ClickableText(
-                                text = AnnotatedString(meal.strYoutube),
-                                style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.primary),
-                                onClick = {
-                                    val intent =
-                                        Intent(Intent.ACTION_VIEW, Uri.parse(meal.strYoutube))
-                                    context.startActivity(intent)
-                                },
-                                modifier = Modifier.padding(10.dp)
-                            )
-                        } else {
-                            Text(
-                                text = "No hay conexión a internet",
-                                color = MaterialTheme.colorScheme.error,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                            )
+                            if (isInternetAvailable(context)) {
+                                Text(
+                                    text = "Más información sobre la receta",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .clickable {
+                                            val intent =
+                                                Intent(
+                                                    Intent.ACTION_VIEW,
+                                                    Uri.parse(meal.strYoutube)
+                                                )
+                                            context.startActivity(intent)
+                                        }
+                                )
+                            } else {
+                                Text(
+                                    text = "No hay conexión a internet",
+                                    color = MaterialTheme.colorScheme.error,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                )
+                            }
                         }
                     }
                 } ?: run {

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
-import com.example.turecetaapp.presentation.navigation.TuRecetaNavHost
+import com.example.turecetaapp.navigation.TuRecetaNavHost
 import com.example.turecetaapp.ui.theme.TuRecetaAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
