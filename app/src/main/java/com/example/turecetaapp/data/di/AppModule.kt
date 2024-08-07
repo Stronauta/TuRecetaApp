@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.turecetaapp.data.local.dao.CategoryDao
 import com.example.turecetaapp.data.local.dao.MealDao
+import com.example.turecetaapp.data.local.dao.MealDetailsDao
 import com.example.turecetaapp.data.local.database.MealDb
 import com.example.turecetaapp.data.remote.MealApi
 import com.example.turecetaapp.data.repository.MealRepository
@@ -65,9 +66,9 @@ object AppModule {
         return database.categoryDao()
     }
 
-    /*    @Singleton
-        @Provides
-        fun provideADao(database: MealDb): aDao {
-            return database.aDao()
-        }*/
+    @Singleton
+    @Provides
+    fun provideMealDetailsDao(database: MealDb): MealDetailsDao {
+        return database.mealDetailsDao()
+    }
 }

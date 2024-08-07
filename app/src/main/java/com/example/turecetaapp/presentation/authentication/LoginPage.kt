@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.turecetaapp.R
-import com.example.turecetaapp.presentation.navigation.Screen
+import com.example.turecetaapp.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
