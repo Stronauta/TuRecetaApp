@@ -26,6 +26,9 @@ interface MealDetailsDao {
     )
     suspend fun getMealDetailById(id: String): MealDetailsEntity?
 
+    @Query("SELECT * FROM meals_details WHERE idMeal = :idMeal")
+    suspend fun getMealById(idMeal: String): MealDetailsEntity?
+
     @Query("SELECT * FROM meals_details")
     fun getAll(): Flow<List<MealDetailsEntity>>
 }

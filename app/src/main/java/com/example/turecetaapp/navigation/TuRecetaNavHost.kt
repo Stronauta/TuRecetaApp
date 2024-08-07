@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.turecetaapp.presentation.Meal.MealListScreen
+import com.example.turecetaapp.presentation.Meal.MealListScreen
 import com.example.turecetaapp.presentation.authentication.HomePage
 import com.example.turecetaapp.presentation.authentication.LoginPage
 import com.example.turecetaapp.presentation.authentication.ProfileScreen

@@ -1,5 +1,6 @@
 package com.example.turecetaapp.presentation.authentication
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.turecetaapp.R
 import com.example.turecetaapp.navigation.Screen
+import isInternetAvailable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,11 +136,29 @@ fun LoginPage(
                 Text(text = "Iniciar Sesión")
             }
 
+/*            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { enterAsGuest(context, navController) }
+            ) {
+                Text(text = "Enter as Guest")
+            }*/
+
             Spacer(modifier = Modifier.height(8.dp))
 
             TextButton(onClick = { navController.navigate(Screen.SignupScreen) }) {
                 Text(text = "¿No tienes una cuenta? Regístrate")
             }
         }
+    }
+}
+
+fun enterAsGuest(context: Context, navController: NavController) {
+    if (isInternetAvailable(context)) {
+        Toast.makeText(context, "Internet available. Entering as guest.", Toast.LENGTH_SHORT).show()
+        navController.navigate(Screen.HomeScreen)
+    } else {
+        Toast.makeText(context, "No internet connection. Entering as guest.", Toast.LENGTH_SHORT).show()
+        navController.navigate(Screen.CategoriesList)
     }
 }

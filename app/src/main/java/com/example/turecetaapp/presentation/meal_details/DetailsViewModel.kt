@@ -25,7 +25,7 @@ class MealDetailViewModel @Inject constructor(
     private val _state = MutableStateFlow(MealDetailState())
     val state: StateFlow<MealDetailState> = _state.asStateFlow()
 
-    init{
+    init {
         viewModelScope.launch {
             savedStateHandle.get<String>(PARAM_ID_MEAL)?.let { mealId ->
                 getMealDetails(mealId)
@@ -33,29 +33,31 @@ class MealDetailViewModel @Inject constructor(
         }
     }
 
-    suspend fun getMealDetails(id: String) {
-        repository.getMealById(id).onEach { result ->
-            when(result) {
-                is Resource.Success -> {
-                    _state.value = MealDetailState(
-                        meals = result.data?.meals ?: emptyList()
-                    )
+    fun getMealDetails(id: String) {
+        viewModelScope.launch {
+            repository.getMealById(id).onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _state.value = MealDetailState(
+                            meals = listOf(result.data)
+                        )
+                    }
+                    is Resource.Error -> {
+                        _state.value = MealDetailState(
+                            error = result.message ?: "An unexpected error occurred"
+                        )
+                    }
+                    is Resource.Loading -> {
+                        _state.value = MealDetailState(isLoading = true)
+                    }
                 }
-                is Resource.Error -> {
-                    _state.value = MealDetailState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
-                }
-                is Resource.Loading -> {
-                    _state.value = MealDetailState(isLoading = true)
-                }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(this)
+        }
     }
 }
 
 data class MealDetailState(
     val isLoading: Boolean = false,
-    val meals: List<MealDetails> = emptyList(),
+    val meals: List<MealDetails?> = emptyList(),
     val error: String = ""
 )

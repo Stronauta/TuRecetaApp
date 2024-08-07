@@ -5,11 +5,13 @@ import com.example.turecetaapp.data.local.dao.CategoryDao
 import com.example.turecetaapp.data.local.dao.MealDao
 import com.example.turecetaapp.data.local.dao.MealDetailsDao
 import com.example.turecetaapp.data.local.entities.CategoryEntity
+import com.example.turecetaapp.data.local.entities.MealDetailsEntity
 import com.example.turecetaapp.data.local.entities.MealEntity
 import com.example.turecetaapp.data.remote.MealApi
 import com.example.turecetaapp.data.remote.dto.Category
 import com.example.turecetaapp.data.remote.dto.Meal
 import com.example.turecetaapp.data.remote.dto.MealDetailResponse
+import com.example.turecetaapp.data.remote.dto.MealDetails
 import com.example.turecetaapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -74,13 +76,11 @@ class MealRepository @Inject constructor(
         try {
             Log.d("MealRepository", "Fetching meals by category from local database")
 
-            // Obtener datos locales de la base de datos
             val localMeals = mealDao.getMealsByCategory(category).firstOrNull() ?: emptyList()
 
             if (localMeals.isNotEmpty()) {
                 Log.d("MealRepository", "Local meals found: ${localMeals.size}")
 
-                // Convertir MealEntity a Meal y emitir el resultado
                 val meals = localMeals.map { mealEntity ->
                     Meal(
                         idMeal = mealEntity.idMeal.toString(),
@@ -92,7 +92,6 @@ class MealRepository @Inject constructor(
             } else {
                 Log.d("MealRepository", "No local meals found, fetching from API")
 
-                // Obtener datos de la API
                 val container = mealApi.getMealsByCategory(category)
                 val meals = container.meals.map { mealDto ->
                     MealEntity(
@@ -103,11 +102,9 @@ class MealRepository @Inject constructor(
                     )
                 }
 
-                // Guardar los datos en la base de datos local
                 Log.d("MealRepository", "Saving meals to local database")
                 mealDao.insert(meals)
 
-                // Convertir y emitir los datos obtenidos
                 val mappedMeals = meals.map { mealEntity ->
                     Meal(
                         idMeal = mealEntity.idMeal.toString(),
@@ -123,17 +120,96 @@ class MealRepository @Inject constructor(
             emit(Resource.Error("Error fetching meals"))
         }
     }
-    suspend fun getMealById(idMeal: String): Flow<Resource<MealDetailResponse>> = flow {
-        try {
-            emit(Resource.Loading())
-            val meals = mealApi.getMealById(idMeal)
-            emit(Resource.Success(meals))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-        } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection"))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+
+    suspend fun getMealById(idMeal: String): Flow<Resource<MealDetails>> = flow {
+        emit(Resource.Loading())
+
+        // Primero, intenta obtener los datos de la base de datos local
+        val localMealDetail = mealDetailsDao.getMealById(idMeal)
+        if (localMealDetail != null) {
+            emit(Resource.Success(localMealDetail.toDomainModel()))
+        } else {
+            // Si no hay datos locales, obtén los datos de la API
+            try {
+                val mealDetailResponse = mealApi.getMealById(idMeal)
+                val mealDetail = mealDetailResponse.meals.first()
+
+                // Convertir la respuesta de la API a la entidad de la base de datos
+                val mealDetailsEntity = MealDetailsEntity(
+                    idMeal = mealDetail.idMeal,
+                    strMeal = mealDetail.strMeal,
+                    strCategory = mealDetail.strCategory,
+                    strArea = mealDetail.strArea,
+                    strInstructions = mealDetail.strInstructions,
+                    strMealThumb = mealDetail.strMealThumb,
+                    strYoutube = mealDetail.strYoutube ?: "",
+                    strIngredient1 = mealDetail.strIngredient1 ?: "",
+                    strIngredient2 = mealDetail.strIngredient2 ?: "",
+                    strIngredient3 = mealDetail.strIngredient3 ?: "",
+                    strIngredient4 = mealDetail.strIngredient4 ?: "",
+                    strIngredient5 = mealDetail.strIngredient5 ?: "",
+                    strIngredient6 = mealDetail.strIngredient6 ?: "",
+                    strIngredient7 = mealDetail.strIngredient7 ?: "",
+                    strIngredient8 = mealDetail.strIngredient8 ?: "",
+                    strIngredient9 = mealDetail.strIngredient9 ?: "",
+                    strIngredient10 = mealDetail.strIngredient10 ?: "",
+                    strMeasure1 = mealDetail.strMeasure1 ?: "",
+                    strMeasure2 = mealDetail.strMeasure2 ?: "",
+                    strMeasure3 = mealDetail.strMeasure3 ?: "",
+                    strMeasure4 = mealDetail.strMeasure4 ?: "",
+                    strMeasure5 = mealDetail.strMeasure5 ?: "",
+                    strMeasure6 = mealDetail.strMeasure6 ?: "",
+                    strMeasure7 = mealDetail.strMeasure7 ?: "",
+                    strMeasure8 = mealDetail.strMeasure8 ?: "",
+                    strMeasure9 = mealDetail.strMeasure9 ?: "",
+                    strMeasure10 = mealDetail.strMeasure10 ?: ""
+                )
+
+                // Guardar los datos en la base de datos local
+                mealDetailsDao.insert(mealDetailsEntity)
+
+                // Emitir los datos obtenidos
+                emit(Resource.Success(mealDetailsEntity.toDomainModel()))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+            } catch (e: IOException) {
+                emit(Resource.Error("Couldn't reach server. Check your internet connection"))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+            }
         }
     }
+}
+
+// Función de extensión para convertir MealDetailsEntity a MealDetails
+fun MealDetailsEntity.toDomainModel(): MealDetails {
+    return MealDetails(
+        idMeal = this.idMeal,
+        strMeal = this.strMeal,
+        strCategory = this.strCategory,
+        strArea = this.strArea,
+        strInstructions = this.strInstructions,
+        strMealThumb = this.strMealThumb,
+        strYoutube = this.strYoutube,
+        strIngredient1 = this.strIngredient1,
+        strIngredient2 = this.strIngredient2,
+        strIngredient3 = this.strIngredient3,
+        strIngredient4 = this.strIngredient4,
+        strIngredient5 = this.strIngredient5,
+        strIngredient6 = this.strIngredient6,
+        strIngredient7 = this.strIngredient7,
+        strIngredient8 = this.strIngredient8,
+        strIngredient9 = this.strIngredient9,
+        strIngredient10 = this.strIngredient10,
+        strMeasure1 = this.strMeasure1,
+        strMeasure2 = this.strMeasure2,
+        strMeasure3 = this.strMeasure3,
+        strMeasure4 = this.strMeasure4,
+        strMeasure5 = this.strMeasure5,
+        strMeasure6 = this.strMeasure6,
+        strMeasure7 = this.strMeasure7,
+        strMeasure8 = this.strMeasure8,
+        strMeasure9 = this.strMeasure9,
+        strMeasure10 = this.strMeasure10
+    )
 }
