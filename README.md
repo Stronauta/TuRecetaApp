@@ -9,7 +9,7 @@ TuReceta es una aplicación de recetas que consume datos de TheMealDB API para p
 
 - **Explorar Recetas**: Navega a través de una amplia selección de recetas de comida y bebida, con la capacidad de filtrar por categorías.
 - **Detalles de la Receta**: Visualiza información detallada para cada receta, incluyendo la lista de ingredientes, medidas e instrucciones de preparación.
-- **Lista de Recetas Favoritas**: Te da la opción de elegir las recetas que son tus favoritas, guardas y mostrala en una lista propia del usuario.
+- **Lista de Recetas Favoritas**: Te da la opción de elegir las recetas que son tus favoritas, guardarlas y mostralas en una lista propia del usuario.
 - **Modo Offline**: La aplicación puede funcionar sin conexión siempre y cuando los datos hayan sido cargados previamente.
 
 ## Tecnologías Utilizadas
