@@ -27,12 +27,12 @@ TuReceta es una aplicación de recetas que consume datos de TheMealDB API para p
 1. Asegúrate de tener Android Studio instalado en tu computadora.
 2. Clona este repositorio en tu máquina local usando el comando:
    ```bash
-   [(https://github.com/Stronauta/TuRecetaApp.git)]
+   https://github.com/Stronauta/TuRecetaApp.git
 3. Espere a que el proyecto se sincronice con sus dependencias.
 4. Ejecute la aplicación en un emulador o dispositivo Android conectado.
 5. El proyecto usa Firebase Auth por tanto tendra que crear una cuenta y vincularla al proyecto clonado para que pueda ejecutarse funcionar.
 
-## Constribucionnes  
+## Contribuciones  
 
 Si te gustó el proyecto y te gustaría contribuir, no dudes en abrir un Issues para informar un error o una sugerencia de mejora.
 
