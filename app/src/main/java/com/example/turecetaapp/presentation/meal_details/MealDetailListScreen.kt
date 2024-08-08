@@ -152,7 +152,7 @@ fun MealDetailScreen(
                             defaultElevation = 10.dp
                         )
                     ) {
-                        MealDetailItem(mealInfo = meal, isFavorite = isFavorite) {
+                        MealDetailItem(mealInfo = meal, isFavorite = isFavorite, authState = authState) {
                             viewModel.toggleFavoriteMeal(meal)
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -219,6 +219,7 @@ fun MealDetailScreen(
 fun MealDetailItem(
     mealInfo: MealDetails,
     isFavorite: Boolean,
+    authState: AuthState,
     onFavoriteClick: () -> Unit
 ) {
     Column(
@@ -268,15 +269,17 @@ fun MealDetailItem(
                 .fillMaxWidth()
                 .padding(bottom = 5.dp)
         )
-        IconButton(
-            onClick = onFavoriteClick,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Icon(
-                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = "Favorite Icon",
-                tint = Color.Red
-            )
+        if (authState is AuthState.Authenticated) {
+            IconButton(
+                onClick = onFavoriteClick,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorite Icon",
+                    tint = Color.Red
+                )
+            }
         }
         HorizontalDivider(
             modifier = Modifier
