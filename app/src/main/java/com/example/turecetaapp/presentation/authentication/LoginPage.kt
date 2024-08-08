@@ -113,7 +113,7 @@ fun LoginPage(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Login Page", fontSize = 32.sp)
+            Text(text = "Iniciar Sesión", fontSize = 32.sp)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -155,21 +155,27 @@ fun LoginPage(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if(isInternetAvailable(context)){
-                Button(
-                    onClick = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (isInternetAvailable(context)) {
+                    TextButton(onClick = {
                         Log.d("LoginPage", "Guest button clicked")
                         authViewModel.enterAsGuest()
+                    }) {
+                        Text(text = "Entrar como Invitado", fontSize = 12.sp)
                     }
-                ) {
-                    Text(text = "Entrar como Invitado")
                 }
-            }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-            TextButton(onClick = { navController.navigate(Screen.SignupScreen) }) {
-                Text(text = "¿No tienes una cuenta? Regístrate")
+                Text(text = " | ", fontSize = 12.sp)
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                TextButton(onClick = { navController.navigate(Screen.SignupScreen) }) {
+                    Text(text = "Registrarse", fontSize = 12.sp)
+                }
             }
         }
     }

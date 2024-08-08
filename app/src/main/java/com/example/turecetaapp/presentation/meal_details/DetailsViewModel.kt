@@ -82,7 +82,7 @@ class MealDetailViewModel @Inject constructor(
     fun deleteFavoriteMeal(meal: FavoriteMealEntity) {
         viewModelScope.launch {
             repository.removeFavoriteMeal(meal)
-            getFavoriteMeals()  // Refrescar la lista de comidas favoritas
+            getFavoriteMeals()
         }
     }
 }

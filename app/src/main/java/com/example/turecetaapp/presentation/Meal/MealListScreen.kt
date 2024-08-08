@@ -110,13 +110,13 @@ fun MealListScreen(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
-                        IconButton(onClick = { /* Handle search button click */ }) {
+/*                        IconButton(onClick = { *//* Handle search button click *//* }) {
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Search Icon",
                                 tint = Color.White
                             )
-                        }
+                        }*/
                     }
                 }
             )

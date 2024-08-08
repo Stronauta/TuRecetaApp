@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class FavoriteMealEntity(
     @PrimaryKey
     val idMeal: String,
+    //val userId: String,
     val strMeal: String,
     val strCategory: String,
     val strArea: String,

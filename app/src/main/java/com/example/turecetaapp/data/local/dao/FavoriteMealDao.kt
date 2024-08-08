@@ -18,4 +18,9 @@ interface FavoriteMealDao {
 
     @Query("SELECT * FROM favorite_meals")
     fun getAllFavoriteMeals(): Flow<List<FavoriteMealEntity>>
+
+    @Query("SELECT * FROM favorite_meals WHERE idMeal = :id")
+    suspend fun getFavoriteMealById(id: String): FavoriteMealEntity?
+
+
 }
